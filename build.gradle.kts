@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 plugins {
     java
     idea
@@ -22,14 +24,15 @@ java {
 }
 
 tasks.withType<JavaCompile> {
-    //options.compilerArgs += '--enable-preview'
     options.compilerArgs.add("--enable-preview")
 }
 
 
 val test by tasks.getting(Test::class) {
-    //jvmArgs += ""
     jvmArgs("--enable-preview")
     useJUnitPlatform()
+    testLogging {
+        events = setOf(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
+    }
 }
 
